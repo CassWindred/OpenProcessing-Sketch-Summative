@@ -12,8 +12,7 @@ var f0, f1, f2, f3, m, mt1, mt2, mt3, m1, m2, m3, t0, t1, t2, t3, flou, col;
 var hu, sat, bri, alp;
 var bg = 0;
 
-function setup() {
-    createCanvas(windowWidth, windowHeight);
+function begin() {
     w = width;
     h = height;
     colorMode(HSB, 360, 255, 255, 255);
@@ -60,7 +59,7 @@ function initiate() {
     cycles.push(new Cycle(1));
 }
 
-function draw() {
+function dodraw() {
     t0 += f0;
     t1 = t0 * f1 + mt1;
     t2 = t0 * f2 + mt2;
