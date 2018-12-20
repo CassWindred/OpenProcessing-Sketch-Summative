@@ -1,8 +1,10 @@
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    begin()
+    ac = new ArtCurves();
+
 }
 
 function draw() {
-    dodraw()
+    ac.draw()
 }
+
