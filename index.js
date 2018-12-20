@@ -1,10 +1,19 @@
+var att;
+var pCountVal;
+var pCountSlider = document.getElementById("pCountRange");
+
 function setup() {
-    createCanvas(windowWidth, windowHeight);
-    ac = new ArtCurves();
+
+    pCountVal = pCountSlider.value;
+    createCanvas(1000, 500);
+    att = new attractor(pCountVal);
 
 }
 
 function draw() {
-    ac.draw()
+    att.draw()
 }
 
+pCountSlider.oninput = function() {
+    setup()
+}

@@ -1,61 +1,68 @@
 // 引力・斥力モデル
-var num = 1000;
-var vx = new Array(num);
-var vy = new Array(num);
-var x = new Array(num);
-var y = new Array(num);
-var ax = new Array(num);
-var ay = new Array(num);
-
-var magnetism = 10.0; //引力の強さ マイナスにすると斥力になる。
-var radius = 1 ; //描画する円の半径
-var gensoku = 0.95; // 粒子の移動を減速させる
-
-function setup(){
-    createCanvas(windowWidth,windowHeight);
-    noStroke();
-    fill(0);
-    ellipseMode(RADIUS);
-    background(0);
-    blendMode(ADD);
-
-    for(var i =0; i< num; i++){
-        x[i] = random(width);
-        y[i] = random(height);
-        vx[i] = 0;
-        vy[i] = 0;
-        ax[i] = 0;
-        ay[i] = 0;
-    }
-}
 
 
-function draw(){
-    fill(0,0,0);
-    rect(0,0,width,height);
+class attractor {
 
-    for(var i=0; i<num; i++){
-        var distance = dist(touchX, touchY, x[i], y[i]); //dist(x1,y1,x2,y2) ２点間の距離を求める関数
-        //加速度は引力の中心からの距離の二乗に反比例する。
-        if(distance > 3){ //あまりマウスに近すぎる場合は加速度を更新しない
-            ax[i] = magnetism * (touchX - x[i]) / (distance * distance);
-            ay[i] = magnetism * (touchY - y[i]) / (distance * distance);
+
+    constructor(pcount=1000, magnetism= 10.0) {
+        this.pcount=pcount
+        this.vx = new Array(this.pcount);
+        this.vy = new Array(this.pcount);
+        this.x = new Array(this.pcount);
+        this.y = new Array(this.pcount);
+        this.ax = new Array(this.pcount);
+        this.ay = new Array(this.pcount);
+
+        this.magnetism = magnetism; //Strength of attractive force If it is negative, it becomes repulsive force.。
+        this.radius = 1 ; //Radius of drawing circle
+        this.deacceleration = 0.95 //Develerate particle movement
+        noStroke();
+        fill(0);
+        ellipseMode(RADIUS);
+        background(0);
+        blendMode(ADD);
+
+        for (var i = 0; i < this.pcount; i++) {
+            this.x[i] = random(width);
+            this.y[i] = random(height);
+            this.vx[i] = 0;
+            this.vy[i] = 0;
+            this.ax[i] = 0;
+            this.ay[i] = 0;
         }
-        vx[i] += ax[i]; // 1フレームあたりaxだけ速度vxを増加する。
-        vy[i] += ay[i]; // 1フレームあたりayだけ速度vyを増加する.
+    }
 
-        vx[i] = vx[i]*gensoku;
-        vy[i] = vy[i]*gensoku;
 
-        x[i] += vx[i];  // 1フレームあたりvyピクセル進ませる。
-        y[i] += vy[i];  // 1フレームあたりvyピクセル進ませる。
 
-        var sokudo = dist(0,0,vx[i],vy[i]); // 速度のX,Y成分から速度を求める
-        var r = map(sokudo, 0, 5, 0, 255); //速度に応じた色を計算
-        var g = map(sokudo, 0,5, 64, 255);
-        var b = map(sokudo, 0,5, 128, 255);
-        fill(r, g, b, 32);
-        ellipse(x[i],y[i],radius,radius);
+
+    draw() {
+        fill(0, 0, 0);
+        rect(0, 0, width, height);
+
+        for (var i = 0; i < this.pcount; i++) {
+            this.distance = dist(mouseX, mouseY, this.x[i], this.y[i]); //dist(x1,y1,x2,y2) Function for finding the distance between two points
+            //Acceleration is inversely proportional to the square of the distance from the center of gravity。
+            if (this.distance > 3) { //If you are too close to the mouse, do not update the acceleration
+                this.ax[i] =  this.magnetism * (mouseX - this.x[i]) / (this.distance ** 2);
+                this.ay[i] =  this.magnetism * (mouseY - this.y[i]) / (this.distance ** 2);
+            }
+            this.vx[i] += this.ax[i]; // Increase the speed this.vx by this.ax per frame。
+            this.vy[i] += this.ay[i]; // Increase the speed this.vy by this.ay only per frame.
+
+            this.vx[i] = this.vx[i] * this.deacceleration;
+            this.vy[i] = this.vy[i] * this.deacceleration;
+
+            this.x[i] += this.vx[i];  // Move forward this.vy pixels per frame.。
+            this.y[i] += this.vy[i];  // Advance this.vy pixel per frame。
+
+            var velocity = dist(0, 0, this.vx[i], this.vy[i]); // Find velocity from X and Y components of velocity
+            var r = map(velocity, 0, 5, 0, 255); //Calculate colors according to speed
+            var g = map(velocity, 0, 5, 64, 255);
+            var b = map(velocity, 0, 5, 128, 255);
+            fill(r, g, b, 32);
+            ellipse(this.x[i], this.y[i], this.radius, this.radius);
+        }
+
     }
 
 }
