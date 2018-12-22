@@ -17,6 +17,10 @@ var oscspeedSlider = document.getElementById("oscspeedSlider");
 var oscspeedView = document.getElementById("oscspeedView");
 oscspeedView.innerHTML=(oscspeedSlider.value/1000);
 
+var oscvalSlider = document.getElementById("oscvalSlider");
+var oscvalView = document.getElementById("oscvalView");
+oscvalView.innerHTML=(oscvalSlider.value/100);
+
 function setup() {
 
     pCountVal = parseInt(pCountSlider.value);
@@ -54,6 +58,12 @@ oscspeedSlider.oninput = function() {
     oscspeedView.innerHTML=(oscspeedSlider.value/1000);
 };
 
+oscvalSlider.oninput = function() {
+    att.oscillatemax=oscvalSlider.value/100;
+    oscvalView.innerHTML=(oscvalSlider.value/100);
+};
+
+
 function toggleTrails(){
     att.trail=!att.trail;
 }
@@ -78,6 +88,11 @@ function resetValues(){
     oscspeedSlider.value=0;
     att.oscilationspeed=oscspeedSlider.value/1000;
     oscspeedView.innerHTML=(oscspeedSlider.value/1000);
+
+    //oscval
+    oscvalSlider.value=1;
+    att.oscillatemax=oscvalSlider.value/100;
+    oscvalView.innerHTML=(oscvalSlider.value/100);
 
     //trails
     att.trail=true;
