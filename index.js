@@ -13,6 +13,10 @@ var sizeSlider = document.getElementById("sizeSlider");
 var sizeView = document.getElementById("sizeView");
 sizeView.innerHTML=(sizeSlider.value/100);
 
+var oscspeedSlider = document.getElementById("oscspeedSlider");
+var oscspeedView = document.getElementById("oscspeedView");
+oscspeedView.innerHTML=(oscspeedSlider.value/1000);
+
 function setup() {
 
     pCountVal = parseInt(pCountSlider.value);
@@ -20,6 +24,7 @@ function setup() {
     att = new attractor(pCountVal,undefined,true);
     att.velocity=velocitySlider.value/100;
     att.radius=sizeSlider.value/100;
+    //att.outline=true;
 }
 
 function draw() {
@@ -42,6 +47,11 @@ velocitySlider.oninput = function() {
 sizeSlider.oninput = function() {
     att.radius=sizeSlider.value/100;
     sizeView.innerHTML=(sizeSlider.value/100);
+};
+
+oscspeedSlider.oninput = function() {
+    att.oscilationspeed=oscspeedSlider.value/1000;
+    oscspeedView.innerHTML=(oscspeedSlider.value/1000);
 };
 
 function toggletrails(){

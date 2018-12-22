@@ -2,6 +2,20 @@
 
 
 class attractor {
+    get outline() {
+        return this._outline;
+    }
+
+    set outline(value) {
+        this._outline = value;
+        if (value===true){
+            stroke('black')
+        }
+        else{
+            noStroke()
+        }
+
+    }
 
 
 
@@ -9,6 +23,8 @@ class attractor {
     constructor(pcount=1000, magnetism= 10.0, trail=true) {
         this.pcount=parseInt(pcount, 10);
         this.trail=trail;
+        this._outline=false;
+        this.outlinecolour='red';
         this.velocity=1.0; //velocity modifier
         this.vx = new Array(this.pcount);
         this.vy = new Array(this.pcount);
@@ -20,7 +36,7 @@ class attractor {
         this.his = new Array(this.pcount); //Stores a history of the point
 
         this.oscillatemax=1; //Defines the max number of pixels the size oscilates away from radius
-        this.oscilationspeed=1; //Defines the speed at which the particles oscilate
+        this.oscilationspeed=0; //Defines the speed at which the particles oscilate
         this.oscilationpoint=0; //Defines the point along the sine curve the oscilation is at
 
         this._magnetism = magnetism; //Strength of attractive force If it is negative, it becomes repulsive force.。
@@ -45,6 +61,8 @@ class attractor {
 
         }
     }
+
+
 
     addparticle(x=mouseX,y=mouseY) {
         this.x.push(x);
@@ -97,19 +115,19 @@ class attractor {
 
 
     draw() {
-        if (!this.trail) {
-            clear();
-        }
-        background('black');
+
         //fill('black');
         //rect(0, 0, width, height);
         if (this.oscillatemax>0){ //Causes the point to oscilate between two sizes based on a sine curve
             this.cradius=this.radius+(sin(this.oscilationpoint)*this.oscillatemax);
-            if (this.oscilationpoint<=360-this.oscilationspeed){ //Prevents oscilationpoint from going above 360
+            //console.log("OSCILATION AT "+this.cradius.toString()+ "| OSCILATION POINT: "+this.oscilationpoint.toString());
+            if (this.oscilationpoint>=360-this.oscilationspeed){ //Prevents oscilationpoint from going above 360
                 this.oscilationpoint=Math.abs(this.oscilationspeed); //TODO: Refine maths
+                console.log("OSCILATION RESET")
             }
             else {
                 this.oscilationpoint += Math.abs(this.oscilationspeed);
+                //console.log("OSCILATION INCREMENTING BY "+Math.abs(this.oscilationspeed).toString())
             }
             if (this.cradius<0){
                 this.cradius=0
@@ -118,7 +136,10 @@ class attractor {
         else{
             this.cradius=this.radius
         }
-
+        if (!this.trail) {
+            clear();
+        }
+        background('black');
 
         for (var i = 0; i < this.pcount; i++) {
             this.distance = dist(mouseX, mouseY, this.x[i], this.y[i]); //dist(x1,y1,x2,y2) Function for finding the distance between two points
