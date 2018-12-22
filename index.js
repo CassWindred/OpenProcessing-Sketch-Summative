@@ -54,6 +54,33 @@ oscspeedSlider.oninput = function() {
     oscspeedView.innerHTML=(oscspeedSlider.value/1000);
 };
 
-function toggletrails(){
+function toggleTrails(){
     att.trail=!att.trail;
+}
+
+function resetValues(){
+    //pcount
+    pCountSlider.value=1000;
+    att.updatepcount(parseInt(pCountSlider.value));
+    pCountView.innerHTML=pCountSlider.value;
+
+    //velocity
+    velocitySlider.value=100;
+    att.velocity=velocitySlider.value/100;
+    velocityView.innerHTML=(velocitySlider.value/100);
+
+    //size
+    sizeSlider.value=100;
+    att.radius=sizeSlider.value/100;
+    sizeView.innerHTML=(sizeSlider.value/100);
+
+    //oscspeed
+    oscspeedSlider.value=0;
+    att.oscilationspeed=oscspeedSlider.value/1000;
+    oscspeedView.innerHTML=(oscspeedSlider.value/1000);
+
+    //trails
+    att.trail=true;
+
+
 }

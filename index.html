@@ -16,7 +16,8 @@
             <input type="range" min="0" max="3000" value="1000" class="slider" id="pCountSlider">
         </div></td>
         <td id="pCountView"></td>
-        <td><button type="button" onclick="setup()">Reset</button></td>
+
+        <td><button type="button" onclick="resetValues()">Reset Values</button></td>
 
     </tr>
     <tr>
@@ -25,7 +26,8 @@
             <input type="range" min="0" max="1000" value="100" class="slider" id="velocitySlider">
         </div></td>
         <td id="velocityView"></td>
-        <td><button type="button" onclick="toggletrails()">Toggle Trails</button></td>
+        <td><button type="button" onclick="setup()">Reset Canvas</button></td>
+
 
     </tr>
     <tr>
@@ -34,6 +36,8 @@
             <input type="range" min="1" max="1000" value="100" class="slider" id="sizeSlider">
         </div></td>
         <td id="sizeView"></td>
+        <td><button type="button" onclick="toggleTrails()">Toggle Trails</button></td>
+
     </tr>
     <tr>
         <td>Oscilation Speed</td>
