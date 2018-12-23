@@ -116,9 +116,10 @@ class Attractor {
 
 
     draw() {
+        fill(0,10);
+        rect(0, 0, width, height);
+        //background('black');
 
-        //fill('black');
-        //rect(0, 0, width, height);
         if (this.oscillatemax>0){ //Causes the point to oscilate between two sizes based on a sine curve
             this.cradius=this.radius+(sin(this.oscilationpoint)*this.oscillatemax);
             //console.log("OSCILATION AT "+this.cradius.toString()+ "| OSCILATION POINT: "+this.oscilationpoint.toString());
@@ -140,7 +141,7 @@ class Attractor {
         if (!this.trail) {
             clear();
         }
-        background('black');
+
 
         for (var i = 0; i < this.pcount; i++) {
             this.distance = dist(mouseX, mouseY, this.x[i], this.y[i]); //dist(x1,y1,x2,y2) Function for finding the distance between two points
@@ -177,6 +178,7 @@ class Attractor {
 
 
 
+
     }
 
     drawtrail(history){  //Creates a trail of a certain length (VERY LAGGY)
@@ -193,3 +195,4 @@ class Attractor {
 }
 
 //Todo: Random variation per particle
+//Todo: Figure out why rect draws under the particles
