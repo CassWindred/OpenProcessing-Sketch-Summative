@@ -26,6 +26,7 @@ class attractor {
         this._outline=false;
         this.outlinecolour='red';
         this.velocity=1.0; //velocity modifier
+        this.opacity=32;
         this.vx = new Array(this.pcount);
         this.vy = new Array(this.pcount);
         this.x = new Array(this.pcount);
@@ -47,7 +48,7 @@ class attractor {
         fill(0);
         ellipseMode(RADIUS);
         background(0);
-        blendMode(ADD);
+        blendMode(LIGHTEST);
 
         for (var i = 0; i < this.pcount; i++) {
             this.x[i] = random(width);
@@ -161,7 +162,8 @@ class attractor {
             var r = map(velocity, 0, 5, 0, 255); //Calculate colors according to speed
             var g = map(velocity, 0, 5, 64, 255);
             var b = map(velocity, 0, 5, 128, 255);
-            fill(r, g, b, 32);
+            fill(r, g, b, this.opacity);
+
             this.elipsevars[i].x=this.x[i]; //Bundles all of the drawing variables into an object so that it may be passed to a function
             this.elipsevars[i].y=this.y[i];
             this.elipsevars[i].r1=this.cradius;
@@ -172,6 +174,7 @@ class attractor {
             //this.his[i].push(this.elipsevars[i]);
             //this.his[i]=this.drawtrail(this.his[i]);
         }
+        console.log(this.opacity.toString());
 
 
 
@@ -189,3 +192,5 @@ class attractor {
     }
 
 }
+
+//Todo: Random variation per particle

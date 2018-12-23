@@ -21,6 +21,10 @@ var oscvalSlider = document.getElementById("oscvalSlider");
 var oscvalView = document.getElementById("oscvalView");
 oscvalView.innerHTML=(oscvalSlider.value/100);
 
+var opacSlider = document.getElementById("opacSlider");
+var opacView = document.getElementById("opacView");
+opacView.innerHTML=(opacSlider.value);
+
 function setup() {
 
     pCountVal = parseInt(pCountSlider.value);
@@ -28,6 +32,9 @@ function setup() {
     att = new attractor(pCountVal,undefined,true);
     att.velocity=velocitySlider.value/100;
     att.radius=sizeSlider.value/100;
+    att.oscilationspeed=oscspeedSlider.value/1000;
+    att.oscillatemax=oscvalSlider.value/100;
+    att.opacity=parseInt(opacSlider.value);
     //att.outline=true;
 }
 
@@ -59,8 +66,13 @@ oscspeedSlider.oninput = function() {
 };
 
 oscvalSlider.oninput = function() {
-    att.oscillatemax=oscvalSlider.value/100;
+    att.oscillatemax=Number(oscvalSlider.value/100);
     oscvalView.innerHTML=(oscvalSlider.value/100);
+};
+
+opacSlider.oninput = function() {
+    att.opacity=parseInt(opacSlider.value);
+    opacView.innerHTML=opacSlider.value;
 };
 
 
@@ -93,6 +105,10 @@ function resetValues(){
     oscvalSlider.value=1;
     att.oscillatemax=oscvalSlider.value/100;
     oscvalView.innerHTML=(oscvalSlider.value/100);
+
+    opacSlider.value=32;
+    att.opacity=parseInt(opacSlider.value);
+    opacView.innerHTML=opacSlider.value;
 
     //trails
     att.trail=true;
