@@ -1,7 +1,7 @@
 // 引力・斥力モデル
 
 
-class attractor {
+class Attractor {
     get outline() {
         return this._outline;
     }
@@ -174,7 +174,6 @@ class attractor {
             //this.his[i].push(this.elipsevars[i]);
             //this.his[i]=this.drawtrail(this.his[i]);
         }
-        console.log(this.opacity.toString());
 
 
 

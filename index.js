@@ -1,117 +1,150 @@
-var att;
-var pCountVal;
 
-var pCountSlider = document.getElementById("pCountSlider");
-var pCountView = document.getElementById("pCountView");
-pCountView.innerHTML=pCountSlider.value;
+let pCountVal = 1000;
 
-var velocitySlider = document.getElementById("velocitySlider");
-var velocityView = document.getElementById("velocityView");
-velocityView.innerHTML=(velocitySlider.value/100);
+const pCountSlider = document.getElementById("pCountSlider"),
+    pCountView = document.getElementById("pCountView");
 
-var sizeSlider = document.getElementById("sizeSlider");
-var sizeView = document.getElementById("sizeView");
-sizeView.innerHTML=(sizeSlider.value/100);
+pCountView.innerHTML = pCountSlider.value;
 
-var oscspeedSlider = document.getElementById("oscspeedSlider");
-var oscspeedView = document.getElementById("oscspeedView");
-oscspeedView.innerHTML=(oscspeedSlider.value/1000);
+const velocitySlider = document.getElementById("velocitySlider"),
+    velocityView = document.getElementById("velocityView");
 
-var oscvalSlider = document.getElementById("oscvalSlider");
-var oscvalView = document.getElementById("oscvalView");
-oscvalView.innerHTML=(oscvalSlider.value/100);
+velocityView.innerHTML = velocitySlider.value / 100;
 
-var opacSlider = document.getElementById("opacSlider");
-var opacView = document.getElementById("opacView");
-opacView.innerHTML=(opacSlider.value);
+const sizeSlider = document.getElementById("sizeSlider"),
+    sizeView = document.getElementById("sizeView");
 
-function setup() {
+sizeView.innerHTML = sizeSlider.value / 100;
 
-    pCountVal = parseInt(pCountSlider.value);
+const oscspeedSlider = document.getElementById("oscspeedSlider"),
+    oscspeedView = document.getElementById("oscspeedView");
+
+oscspeedView.innerHTML = oscspeedSlider.value / 1000;
+
+const oscvalSlider = document.getElementById("oscvalSlider"),
+    oscvalView = document.getElementById("oscvalView");
+
+oscvalView.innerHTML = oscvalSlider.value / 100;
+
+const opacSlider = document.getElementById("opacSlider"),
+    opacView = document.getElementById("opacView");
+
+opacView.innerHTML = opacSlider.value;
+
+let att;
+
+
+function setup () {
+
+
+    pCountVal = parseInt(pCountSlider.value, 10);
+
     createCanvas(1000, 500);
-    att = new attractor(pCountVal,undefined,true);
-    att.velocity=velocitySlider.value/100;
-    att.radius=sizeSlider.value/100;
-    att.oscilationspeed=oscspeedSlider.value/1000;
-    att.oscillatemax=oscvalSlider.value/100;
-    att.opacity=parseInt(opacSlider.value);
-    //att.outline=true;
+
+    att = new Attractor(pCountVal, undefined, true);
+
+    att.velocity = velocitySlider.value / 100;
+    att.radius = sizeSlider.value / 100;
+    att.oscilationspeed = oscspeedSlider.value / 1000;
+    att.oscillatemax = oscvalSlider.value / 100;
+    att.opacity = parseInt(opacSlider.value);
+    // Att.outline = true;
+
 }
 
-function draw() {
-    att.draw()
+function draw () {
+
+    att.draw();
+
 }
 
-function mousePressed(){
-    att.addparticle()
+function mousePressed () {
+
+    att.addparticle();
+
 }
 
-pCountSlider.oninput = function() {
+pCountSlider.oninput = function oninput () {
+
     att.updatepcount(parseInt(pCountSlider.value));
-    pCountView.innerHTML=pCountSlider.value;
+    pCountView.innerHTML = pCountSlider.value;
+
 };
 
-velocitySlider.oninput = function() {
-    att.velocity=velocitySlider.value/100;
-    velocityView.innerHTML=(velocitySlider.value/100);
-};
-sizeSlider.oninput = function() {
-    att.radius=sizeSlider.value/100;
-    sizeView.innerHTML=(sizeSlider.value/100);
-};
+velocitySlider.oninput = function oninput () {
 
-oscspeedSlider.oninput = function() {
-    att.oscilationspeed=oscspeedSlider.value/1000;
-    oscspeedView.innerHTML=(oscspeedSlider.value/1000);
-};
+    att.velocity = velocitySlider.value / 100;
+    velocityView.innerHTML = velocitySlider.value / 100;
 
-oscvalSlider.oninput = function() {
-    att.oscillatemax=Number(oscvalSlider.value/100);
-    oscvalView.innerHTML=(oscvalSlider.value/100);
+};
+sizeSlider.oninput = function oninput () {
+
+    att.radius = sizeSlider.value / 100;
+    sizeView.innerHTML = sizeSlider.value / 100;
+
 };
 
-opacSlider.oninput = function() {
-    att.opacity=parseInt(opacSlider.value);
-    opacView.innerHTML=opacSlider.value;
+oscspeedSlider.oninput = function oninput () {
+
+    att.oscilationspeed = oscspeedSlider.value / 1000;
+    oscspeedView.innerHTML = oscspeedSlider.value / 1000;
+
+};
+
+oscvalSlider.oninput = function oninput () {
+
+    att.oscillatemax = Number(oscvalSlider.value / 100);
+    oscvalView.innerHTML = oscvalSlider.value / 100;
+
+};
+
+opacSlider.oninput = function oninput () {
+
+    att.opacity = parseInt(opacSlider.value);
+    opacView.innerHTML = opacSlider.value;
+
 };
 
 
-function toggleTrails(){
-    att.trail=!att.trail;
+function toggleTrails  () {
+
+    att.trail = !att.trail;
+
 }
 
-function resetValues(){
-    //pcount
-    pCountSlider.value=1000;
+function resetValues () {
+
+    // Pcount
+    pCountSlider.value = 1000;
     att.updatepcount(parseInt(pCountSlider.value));
-    pCountView.innerHTML=pCountSlider.value;
+    pCountView.innerHTML = pCountSlider.value;
 
-    //velocity
-    velocitySlider.value=100;
-    att.velocity=velocitySlider.value/100;
-    velocityView.innerHTML=(velocitySlider.value/100);
+    // Velocity
+    velocitySlider.value = 100;
+    att.velocity = velocitySlider.value / 100;
+    velocityView.innerHTML = velocitySlider.value / 100;
 
-    //size
-    sizeSlider.value=100;
-    att.radius=sizeSlider.value/100;
-    sizeView.innerHTML=(sizeSlider.value/100);
+    // Size
+    sizeSlider.value = 100;
+    att.radius = sizeSlider.value / 100;
+    sizeView.innerHTML = sizeSlider.value / 100;
 
-    //oscspeed
-    oscspeedSlider.value=0;
-    att.oscilationspeed=oscspeedSlider.value/1000;
-    oscspeedView.innerHTML=(oscspeedSlider.value/1000);
+    // Oscillation Speed
+    oscspeedSlider.value = 0;
+    att.oscilationspeed = oscspeedSlider.value / 1000;
+    oscspeedView.innerHTML = oscspeedSlider.value / 1000;
 
-    //oscval
-    oscvalSlider.value=1;
-    att.oscillatemax=oscvalSlider.value/100;
-    oscvalView.innerHTML=(oscvalSlider.value/100);
+    // Oscval
+    oscvalSlider.value = 1;
+    att.oscillatemax = oscvalSlider.value / 100;
+    oscvalView.innerHTML = oscvalSlider.value / 100;
 
-    opacSlider.value=32;
-    att.opacity=parseInt(opacSlider.value);
-    opacView.innerHTML=opacSlider.value;
+    opacSlider.value = 32;
+    att.opacity = parseInt(opacSlider.value, 10);
+    opacView.innerHTML = opacSlider.value;
 
-    //trails
-    att.trail=true;
+    // Trails
+    att.trail = true;
 
 
 }
