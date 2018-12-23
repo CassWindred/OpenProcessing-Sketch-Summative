@@ -16,8 +16,12 @@
             <input type="range" min="0" max="3000" value="1000" class="slider" id="pCountSlider">
         </div></td>
         <td id="pCountView"></td>
+        <td>Opacity</td>
+        <td><div class="slidecontainer">
+            <input type="range" min="0" max="300" value="32" class="slider" id="opacSlider">
+        </div></td>
+        <td id="opacView"></td>
 
-        <td><button type="button" onclick="resetValues()">Reset Values</button></td>
 
     </tr>
     <tr>
@@ -26,7 +30,12 @@
             <input type="range" min="0" max="1000" value="100" class="slider" id="velocitySlider">
         </div></td>
         <td id="velocityView"></td>
-        <td><button type="button" onclick="setup()">Reset Canvas</button></td>
+        <td>Oscilation Value</td>
+        <td><div class="slidecontainer">
+            <input type="range" min="0" max="1000" value="100" class="slider" id="oscvalSlider">
+        </div></td>
+        <td id="oscvalView"></td>
+
 
 
     </tr>
@@ -36,29 +45,27 @@
             <input type="range" min="1" max="1000" value="100" class="slider" id="sizeSlider">
         </div></td>
         <td id="sizeView"></td>
-        <td><button type="button" onclick="toggleTrails()">Toggle Trails</button></td>
-
-    </tr>
-    <tr>
         <td>Oscilation Speed</td>
         <td><div class="slidecontainer">
             <input type="range" min="0" max="1000" value="0" class="slider" id="oscspeedSlider">
         </div></td>
         <td id="oscspeedView"></td>
+    <tr>
+
+
+
+    <tr>
+
     </tr>
     <tr>
-        <td>Oscilation Value</td>
-        <td><div class="slidecontainer">
-            <input type="range" min="0" max="1000" value="100" class="slider" id="oscvalSlider">
-        </div></td>
-        <td id="oscvalView"></td>
+
     </tr>
-    <tr>
-        <td>Opacity</td>
-        <td><div class="slidecontainer">
-            <input type="range" min="0" max="300" value="32" class="slider" id="opacSlider">
-        </div></td>
-        <td id="opacView"></td>
+</table>
+<table>
+    </tr>
+    <td><button type="button" onclick="toggleTrails()">Toggle Trails</button></td>
+    <td><button type="button" onclick="setup()">Reset Canvas</button></td>
+    <td><button type="button" onclick="resetValues()">Reset Values</button></td>
     </tr>
 </table>
 
