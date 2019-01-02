@@ -1,0 +1,50 @@
+# Attractor Class Documentation
+This JS file provides a highly controllable class using the P5 Library which
+displays a set of particles that are attracted to the mouse.
+
+### Functions
+#### Constructor:
+**Required Parameters:** None
+**Optional Parameters: **
+* `pcount`:
+  *Type: `int` Default: `1000`*
+  This defines the starting number of particles on the canvas.
+
+* `magnetism`:
+    *Type: `float` Default: `10.0`*
+    This defines the starting strength of the the particles attraction towards the mouse.
+
+* `trail`:
+    *Type: `boolean` Default: `true`*
+    This defines whether or not the particles will have trails.
+
+#### addparticle
+This function adds a new particle to the list, by default it will be placed
+at the location of the mouse, but specific coordinates can be provided
+
+**Required Parameters:** None
+**Optional Parameters: **
+* `x`:
+  *Type: `int` Default: `mouseX` [This is x-coordinate of the mouse]*
+  This defines the x coordinate of the particle to be created.
+
+* `y`:
+    *Type: `int` Default: `mouseY` [This is y-coordinate of the mouse]*
+    This defines the x coordinate of the particle to be created.
+
+#### updatepcount
+  This function updates the total number of particles to a new value.
+  If the new value is lower than the old value, particles will be deleted,
+  starting with those most recently created, if any.
+  If the new value is higher then new particles will be created in
+   random positions on the canvas
+
+  **Required Parameters:** None
+  **Optional Parameters: **
+  * `x`:
+    *Type: `int` Default: `mouseX` [This is x-coordinate of the mouse]*
+    This defines the x coordinate of the particle to be created.
+
+  * `y`:
+      *Type: `int` Default: `mouseY` [This is y-coordinate of the mouse]*
+      This defines the x coordinate of the particle to be created.

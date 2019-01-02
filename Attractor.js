@@ -34,7 +34,7 @@ class Attractor {
         this._outline=false;
         this._outlinecolour='red';
         this.velocity=1.0; //velocity modifier
-        this.opacity=32;
+        this.opacity=32;x
         this.blendmode=LIGHTEST;
         this.traillength=100;
         this.vx = new Array(this.pcount);
@@ -43,7 +43,7 @@ class Attractor {
         this.y = new Array(this.pcount);
         this.ax = new Array(this.pcount);
         this.ay = new Array(this.pcount);
-        this.elipsevars=new Array(this.pcount); //Stores the most recent set of variables for the elipse to draw
+        //this.elipsevars=new Array(this.pcount); //Stores the most recent set of variables for the elipse to draw
         this.his = new Array(this.pcount); //Stores a history of the point
 
         this.oscillatemax=1; //Defines the max number of pixels the size oscilates away from radius
@@ -70,7 +70,7 @@ class Attractor {
             this.ax[i] = 0;
             this.ay[i] = 0;
             this.his[i]=[];
-            this.elipsevars[i]={};
+            //this.elipsevars[i]={};
 
         }
     }
@@ -85,7 +85,7 @@ class Attractor {
         this.ax.push(0);
         this.ay.push(0);
         this.his.push([]);
-        this.elipsevars.push({});
+        //this.elipsevars.push({});
         this.pcount=this.pcount+1;
     }
 
@@ -100,7 +100,7 @@ class Attractor {
             this.ax.push(0);
             this.ay.push(0);
             this.his.push([]);
-            this.elipsevars.push({});
+            //this.elipsevars.push({});
         }
 
         while (this.x.length > newcount){ //Remove points starting with the most recently made
@@ -111,7 +111,7 @@ class Attractor {
             this.ax.pop();
             this.ay.pop();
             this.his.pop();
-            this.elipsevars.pop();
+            //this.elipsevars.pop();
 
 
         }
@@ -166,9 +166,9 @@ class Attractor {
             this.cradius=this.radius;
         }
         if (!this.trail) {
-            if (r) {
-                r.clear();
-                r.background('black');
+            if (ren) {
+                ren.clear();
+                ren.background('black');
             }
             else {
                 clear();
