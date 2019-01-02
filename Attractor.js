@@ -2,6 +2,14 @@
 
 
 class Attractor {
+    get outlinecolour() {
+        return this._outlinecolour;
+    }
+
+    set outlinecolour(value) {
+        this._outlinecolour = value;
+        stroke(value);
+    }
     get outline() {
         return this._outline;
     }
@@ -9,10 +17,10 @@ class Attractor {
     set outline(value) {
         this._outline = value;
         if (value===true){
-            stroke('black')
+            stroke(this._outlinecolour);
         }
         else{
-            noStroke()
+            noStroke();
         }
 
     }
@@ -24,9 +32,11 @@ class Attractor {
         this.pcount=parseInt(pcount, 10);
         this.trail=trail;
         this._outline=false;
-        this.outlinecolour='red';
+        this._outlinecolour='red';
         this.velocity=1.0; //velocity modifier
         this.opacity=32;
+        this.blendmode=LIGHTEST;
+        this.traillength=100;
         this.vx = new Array(this.pcount);
         this.vy = new Array(this.pcount);
         this.x = new Array(this.pcount);
@@ -44,13 +54,15 @@ class Attractor {
         this.radius = 1 ; //Radius of drawing circle
         this.deacceleration = 0.95; //Develerate particle movement
         this.traillength=5000;
+
+        this.backgroundcycle=true; //This allows the trail-removing rectangle draw to only happen every other cycle.
         noStroke();
         fill(0);
         ellipseMode(RADIUS);
         background(0);
-        blendMode(LIGHTEST);
+        blendMode(this.blendmode);
 
-        for (var i = 0; i < this.pcount; i++) {
+        for (let i = 0; i < this.pcount; i++) {
             this.x[i] = random(width);
             this.y[i] = random(height);
             this.vx[i] = 0;
@@ -75,80 +87,102 @@ class Attractor {
         this.his.push([]);
         this.elipsevars.push({});
         this.pcount=this.pcount+1;
-        console.log("Creating particle "+this.pcount.toString());
     }
 
 
     updatepcount(newcount) {
 
         while (this.x.length < newcount){ //Add points
-                this.x.push(random(width));
-                this.y.push(random(height));
-                this.vx.push(0);
-                this.vy.push(0);
-                this.ax.push(0);
-                this.ay.push(0);
-                this.his.push([]);
-                this.elipsevars.push({})
-            }
+            this.x.push(random(width));
+            this.y.push(random(height));
+            this.vx.push(0);
+            this.vy.push(0);
+            this.ax.push(0);
+            this.ay.push(0);
+            this.his.push([]);
+            this.elipsevars.push({});
+        }
 
         while (this.x.length > newcount){ //Remove points starting with the most recently made
-                this.x.pop();
-                this.y.pop();
-                this.vx.pop();
-                this.vy.pop();
-                this.ax.pop();
-                this.ay.pop();
-                this.his.pop();
-                this.elipsevars.pop()
+            this.x.pop();
+            this.y.pop();
+            this.vx.pop();
+            this.vy.pop();
+            this.ax.pop();
+            this.ay.pop();
+            this.his.pop();
+            this.elipsevars.pop();
 
 
-            }
+        }
 
         this.pcount=newcount;
         if (this.pcount.toString() !== this.x.length.toString()){
-            console.log("Pcount and values in X not equal -ERROR CODE: 0001"); //Breaks if stuff is wrong
-            console.log("pcount: "+this.pcount.toString()+" | x length: "+this.x.length.toString())
+            console.log('Pcount and values in X not equal -ERROR CODE: 0001'); //Breaks if stuff is wrong
+            console.log('pcount: '+this.pcount.toString()+' | x length: '+this.x.length.toString());
 
         }
     }
 
 
 
-    draw() {
-        fill(0,10);
-        rect(0, 0, width, height);
-        //background('black');
+    draw(ren) { //r is a renderer object that can be passed
+
+        if (this.traillength<100 && this.backgroundcycle) { //This should only occur every other draw cycle, thus allowing greater opacity without removing all trails
+            if (!ren) {
+                let fillopacity = 40 - (map(this.traillength, 0, 100, 0, 40));//This uses the trail length given to calculate an opacity in which to draw a rectangle and obscure the length
+                fill(0, fillopacity);
+                blendMode(BLEND);
+                rect(0, 0, width, height);
+                blendMode(this.blendmode);
+
+            }
+            else{
+                let fillopacity = 40 - (map(this.traillength, 0, 100, 0, 40));//This uses the trail length given to calculate an opacity in which to draw a rectangle and obscure the length
+                ren.fill(0, fillopacity);
+                ren.blendMode(BLEND);
+                ren.rect(0, 0, width, height);
+                ren.blendMode(this.blendmode);
+            }
+        }
+        this.backgroundcycle=!this.backgroundcycle; //Swaps the value of the background cycle
 
         if (this.oscillatemax>0){ //Causes the point to oscilate between two sizes based on a sine curve
             this.cradius=this.radius+(sin(this.oscilationpoint)*this.oscillatemax);
             //console.log("OSCILATION AT "+this.cradius.toString()+ "| OSCILATION POINT: "+this.oscilationpoint.toString());
             if (this.oscilationpoint>=360-this.oscilationspeed){ //Prevents oscilationpoint from going above 360
                 this.oscilationpoint=Math.abs(this.oscilationspeed); //TODO: Refine maths
-                console.log("OSCILATION RESET")
+                console.log('OSCILATION RESET');
             }
             else {
                 this.oscilationpoint += Math.abs(this.oscilationspeed);
                 //console.log("OSCILATION INCREMENTING BY "+Math.abs(this.oscilationspeed).toString())
             }
             if (this.cradius<0){
-                this.cradius=0
+                this.cradius=0;
             }
         }
         else{
-            this.cradius=this.radius
+            this.cradius=this.radius;
         }
         if (!this.trail) {
-            clear();
+            if (r) {
+                r.clear();
+                r.background('black');
+            }
+            else {
+                clear();
+                background('black');
+            }
         }
 
 
-        for (var i = 0; i < this.pcount; i++) {
+        for (let i = 0; i < this.pcount; i++) {
             this.distance = dist(mouseX, mouseY, this.x[i], this.y[i]); //dist(x1,y1,x2,y2) Function for finding the distance between two points
             //Acceleration is inversely proportional to the square of the distance from the center of gravity。
             if (this.distance > 3) { //If you are too close to the mouse, do not update the acceleration
-                this.ax[i] =  this._magnetism * (mouseX - this.x[i]) / (this.distance ** 2);
-                this.ay[i] =  this._magnetism * (mouseY - this.y[i]) / (this.distance ** 2);
+                this.ax[i] =  this._magnetism * (mouseX - this.x[i]) / (Math.pow(this.distance, 2));
+                this.ay[i] =  this._magnetism * (mouseY - this.y[i]) / (Math.pow(this.distance, 2));
             }
             this.vx[i] += this.ax[i]; // Increase the speed this.vx by this.ax per frame。
             this.vy[i] += this.ay[i]; // Increase the speed this.vy by this.ay only per frame.
@@ -159,21 +193,19 @@ class Attractor {
             this.x[i] += this.vx[i]*this.velocity;  // Move forward this.vy pixels per frame.
             this.y[i] += this.vy[i]*this.velocity;  // Move forward this.vy pixels per frame.
 
-            var velocity = dist(0, 0, this.vx[i], this.vy[i]); // Find velocity from X and Y components of velocity
-            var r = map(velocity, 0, 5, 0, 255); //Calculate colors according to speed
-            var g = map(velocity, 0, 5, 64, 255);
-            var b = map(velocity, 0, 5, 128, 255);
-            fill(r, g, b, this.opacity);
+            const velocity = dist(0, 0, this.vx[i], this.vy[i]); // Find velocity from X and Y components of velocity
+            const r = map(velocity, 0, 5, 0, 255); //Calculate colors according to speed
+            const g = map(velocity, 0, 5, 64, 255);
+            const b = map(velocity, 0, 5, 128, 255);
 
-            this.elipsevars[i].x=this.x[i]; //Bundles all of the drawing variables into an object so that it may be passed to a function
-            this.elipsevars[i].y=this.y[i];
-            this.elipsevars[i].r1=this.cradius;
-            this.elipsevars[i].r2=this.cradius;
-
-            ellipse(this.elipsevars[i].x, this.elipsevars[i].y, this.elipsevars[i].r1, this.elipsevars[i].r2);
-
-            //this.his[i].push(this.elipsevars[i]);
-            //this.his[i]=this.drawtrail(this.his[i]);
+            if (ren) {
+                ren.fill(r, g, b, this.opacity);
+                ren.ellipse(this.x[i], this.y[i], this.cradius, this.cradius);
+            }
+            else{
+                fill(r, g, b, this.opacity);
+                ellipse(this.x[i], this.y[i], this.cradius, this.cradius);
+            }
         }
 
 
@@ -181,16 +213,7 @@ class Attractor {
 
     }
 
-    drawtrail(history){  //Creates a trail of a certain length (VERY LAGGY)
-        for (let i=0; i<history.length-1;i++){
-            ellipse(history[i].x,history[i].y,history[i].r1,history[i].r2);
-        }
-        while (history.length>this.traillength){
-            history.shift()
-        }
-        return history
 
-    }
 
 }
 

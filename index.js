@@ -1,35 +1,40 @@
 
 let pCountVal = 1000;
 
-const pCountSlider = document.getElementById("pCountSlider"),
-    pCountView = document.getElementById("pCountView");
+const pCountSlider = document.getElementById('pCountSlider'),
+    pCountView = document.getElementById('pCountView');
 
 pCountView.innerHTML = pCountSlider.value;
 
-const velocitySlider = document.getElementById("velocitySlider"),
-    velocityView = document.getElementById("velocityView");
+const velocitySlider = document.getElementById('velocitySlider'),
+    velocityView = document.getElementById('velocityView');
 
 velocityView.innerHTML = velocitySlider.value / 100;
 
-const sizeSlider = document.getElementById("sizeSlider"),
-    sizeView = document.getElementById("sizeView");
+const sizeSlider = document.getElementById('sizeSlider'),
+    sizeView = document.getElementById('sizeView');
 
 sizeView.innerHTML = sizeSlider.value / 100;
 
-const oscspeedSlider = document.getElementById("oscspeedSlider"),
-    oscspeedView = document.getElementById("oscspeedView");
+const oscspeedSlider = document.getElementById('oscspeedSlider'),
+    oscspeedView = document.getElementById('oscspeedView');
 
 oscspeedView.innerHTML = oscspeedSlider.value / 1000;
 
-const oscvalSlider = document.getElementById("oscvalSlider"),
-    oscvalView = document.getElementById("oscvalView");
+const oscvalSlider = document.getElementById('oscvalSlider'),
+    oscvalView = document.getElementById('oscvalView');
 
 oscvalView.innerHTML = oscvalSlider.value / 100;
 
-const opacSlider = document.getElementById("opacSlider"),
-    opacView = document.getElementById("opacView");
+const opacSlider = document.getElementById('opacSlider'),
+    opacView = document.getElementById('opacView');
 
 opacView.innerHTML = opacSlider.value;
+
+const trailSlider = document.getElementById('trailSlider'),
+    trailView = document.getElementById('trailView');
+
+opacView.innerHTML = opacSlider.value/10;
 
 let att;
 
@@ -48,6 +53,7 @@ function setup () {
     att.oscilationspeed = oscspeedSlider.value / 1000;
     att.oscillatemax = oscvalSlider.value / 100;
     att.opacity = parseInt(opacSlider.value);
+    att.traillength=parseFloat(trailSlider.value/10);
     // Att.outline = true;
 
 }
@@ -102,6 +108,13 @@ opacSlider.oninput = function oninput () {
 
     att.opacity = parseInt(opacSlider.value);
     opacView.innerHTML = opacSlider.value;
+
+};
+
+trailSlider.oninput = function oninput () {
+
+    att.traillength = parseFloat(trailSlider.value/10);
+    trailView.innerHTML = trailSlider.value/10;
 
 };
 
