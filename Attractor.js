@@ -8,7 +8,9 @@ class Attractor {
 
     set outlinecolour(value) {
         this._outlinecolour = value;
-        stroke(value);
+        if (this.outline=true){
+            stroke(value);
+        }
     }
     get outline() {
         return this._outline;
@@ -34,7 +36,7 @@ class Attractor {
         this._outline=false;
         this._outlinecolour='red';
         this.velocity=1.0; //velocity modifier
-        this.opacity=32;x
+        this.opacity=32;
         this.blendmode=LIGHTEST;
         this.traillength=100;
         this.vx = new Array(this.pcount);

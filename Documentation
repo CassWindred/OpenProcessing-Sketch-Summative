@@ -3,26 +3,51 @@ This JS file provides a highly controllable class using the P5 Library which
 displays a set of particles that are attracted to the mouse.
 
 ### Functions
-#### Constructor:
+
+---
+
+#### constructor(pcount=1000, magnetism= 10.0, trail=true):
+This is automatically called when a new Attractor object is created.
+
 **Required Parameters:** None
+
 **Optional Parameters: **
 * `pcount`:
   *Type: `int` Default: `1000`*
-  This defines the starting number of particles on the canvas.
+  This defines the starting number of particles on the canvas. Values higher
+  than 3000 can start to cause significant lag.
 
 * `magnetism`:
     *Type: `float` Default: `10.0`*
     This defines the starting strength of the the particles attraction towards the mouse.
+    Recommended values are between 0-20
 
 * `trail`:
     *Type: `boolean` Default: `true`*
     This defines whether or not the particles will have trails.
 
-#### addparticle
+---
+#### draw(ren)
+This function draws the next frame onto either the default canvas or onto a
+`p5.renderer` object passed in as `ren`. It is reccomended to call this in the
+`draw()` function of your main code.
+
+**Required Parameters:** None
+
+**Optional Parameters: **
+* `ren`:
+  *Type: `p5.renderer` Default: `None`*
+  This this is an optional alternative renderer onto which the new frame will be
+  drawn.
+
+---
+
+#### addparticle(x=mouseX, y=mouseY)
 This function adds a new particle to the list, by default it will be placed
 at the location of the mouse, but specific coordinates can be provided
 
 **Required Parameters:** None
+
 **Optional Parameters: **
 * `x`:
   *Type: `int` Default: `mouseX` [This is x-coordinate of the mouse]*
@@ -32,19 +57,31 @@ at the location of the mouse, but specific coordinates can be provided
     *Type: `int` Default: `mouseY` [This is y-coordinate of the mouse]*
     This defines the x coordinate of the particle to be created.
 
-#### updatepcount
+---
+
+#### updatepcount(newcount)
   This function updates the total number of particles to a new value.
   If the new value is lower than the old value, particles will be deleted,
   starting with those most recently created, if any.
   If the new value is higher then new particles will be created in
    random positions on the canvas
 
-  **Required Parameters:** None
-  **Optional Parameters: **
-  * `x`:
-    *Type: `int` Default: `mouseX` [This is x-coordinate of the mouse]*
-    This defines the x coordinate of the particle to be created.
+  **Required Parameters:**
+  * `newcount`:
+    *Type: `int` *
+    This is the new value of pcount, which is the total number of particles.
+    Values higher than 3000 can start to cause significant lag.
 
-  * `y`:
-      *Type: `int` Default: `mouseY` [This is y-coordinate of the mouse]*
-      This defines the x coordinate of the particle to be created.
+  **Optional Parameters: ** None
+
+  ---
+
+  ### Parameters
+  Parameter | Type | Default | Description
+  ------------ | ------------- | ---| ---
+  pcount | int | `1000` | The number of particles. Do not set this manually, use updatepcount(). *Reccomended Max: 3000*
+  trail | boolean | `true` | Defines whether or not there is a trail. Trails are removed by clearing the canvas every cycle.
+  outline | boolean | `false` | Defines whether or not the particles have an outline.
+  oulinecolour | *variable* | `'black'` | Sets the colour of the outline. Parameters use rules from [here](https://p5js.org/reference/#/p5/color)
+  velocity | float | `1.0` | Sets a velocity multiplier for the particles, 0 will cause the particles to not move.
+  opacity | int | `32` | Sets the opacity of the particles, *Reccomended Range 0-300*
