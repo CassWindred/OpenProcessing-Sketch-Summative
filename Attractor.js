@@ -37,8 +37,8 @@ class Attractor {
         this._outlinecolour='red';
         this.velocity=1.0; //velocity modifier
         this.opacity=32;
-        this.blendmode=LIGHTEST;
-        this.traillength=100;
+        this.blendmode=ADD;
+        this.traillength=100.0;
         this.vx = new Array(this.pcount);
         this.vy = new Array(this.pcount);
         this.x = new Array(this.pcount);
@@ -54,15 +54,12 @@ class Attractor {
 
         this._magnetism = magnetism; //Strength of attractive force If it is negative, it becomes repulsive force.。
         this.radius = 1 ; //Radius of drawing circle
-        this.deacceleration = 0.95; //Develerate particle movement
-        this.traillength=5000;
+        this.deceleration = 0.95; //Develerate particle movement
 
         this.backgroundcycle=true; //This allows the trail-removing rectangle draw to only happen every other cycle.
-        noStroke();
-        fill(0);
-        ellipseMode(RADIUS);
-        background(0);
-        blendMode(this.blendmode);
+
+
+
 
         for (let i = 0; i < this.pcount; i++) {
             this.x[i] = random(width);
@@ -130,6 +127,32 @@ class Attractor {
 
     draw(ren) { //r is a renderer object that can be passed
 
+        if (ren){
+            ren.background(0);
+            ren.blendMode(this.blendmode);
+            ren.fill(0);
+            ren.ellipseMode(RADIUS);
+            if (this._outline===false){
+                noStroke();
+            }
+            else{
+                stroke(this._outlinecolour);
+            }
+        }
+        else{
+            background(0);
+            blendMode(this.blendmode);
+            fill(0);
+            ellipseMode(RADIUS);
+            if (this._outline===false){
+                noStroke();
+            }
+            else{
+                stroke(this._outlinecolour);
+            }
+
+        }
+
         if (this.traillength<100 && this.backgroundcycle) { //This should only occur every other draw cycle, thus allowing greater opacity without removing all trails
             if (!ren) {
                 let fillopacity = 40 - (map(this.traillength, 0, 100, 0, 40));//This uses the trail length given to calculate an opacity in which to draw a rectangle and obscure the length
@@ -189,8 +212,8 @@ class Attractor {
             this.vx[i] += this.ax[i]; // Increase the speed this.vx by this.ax per frame。
             this.vy[i] += this.ay[i]; // Increase the speed this.vy by this.ay only per frame.
 
-            this.vx[i] = this.vx[i] * this.deacceleration ;
-            this.vy[i] = this.vy[i] * this.deacceleration ;
+            this.vx[i] = this.vx[i] * this.deceleration ;
+            this.vy[i] = this.vy[i] * this.deceleration ;
 
             this.x[i] += this.vx[i]*this.velocity;  // Move forward this.vy pixels per frame.
             this.y[i] += this.vy[i]*this.velocity;  // Move forward this.vy pixels per frame.

@@ -29,7 +29,7 @@ This is automatically called when a new Attractor object is created.
 ---
 #### draw(ren)
 This function draws the next frame onto either the default canvas or onto a
-`p5.renderer` object passed in as `ren`. It is reccomended to call this in the
+`p5.renderer` object passed in as `ren`. It is recommended to call this in the
 `draw()` function of your main code.
 
 **Required Parameters:** None
@@ -79,9 +79,16 @@ at the location of the mouse, but specific coordinates can be provided
   ### Parameters
   Parameter | Type | Default | Description
   ------------ | ------------- | ---| ---
-  pcount | int | `1000` | The number of particles. Do not set this manually, use updatepcount(). *Reccomended Max: 3000*
+  pcount | int | `1000` | The number of particles. Do not set this manually, use updatepcount(). *recommended Max: 3000*
   trail | boolean | `true` | Defines whether or not there is a trail. Trails are removed by clearing the canvas every cycle.
+  traillength | float | `100.0` | If trails are enabled, this defines how long the trails are. A value of 100 means infinite trail *Required Range: 0-100*
   outline | boolean | `false` | Defines whether or not the particles have an outline.
   oulinecolour | *variable* | `'black'` | Sets the colour of the outline. Parameters use rules from [here](https://p5js.org/reference/#/p5/color)
   velocity | float | `1.0` | Sets a velocity multiplier for the particles, 0 will cause the particles to not move.
-  opacity | int | `32` | Sets the opacity of the particles, *Reccomended Range 0-300*
+  opacity | int | `32` | Sets the opacity of the particles, *Recommended Range 0-300*
+  blendmode | *variable* | `ADD`| Sets the blend mode of the canvas. It is not recommended to change this. Parameters use rules from [here](https://p5js.org/reference/#/p5/blendMode)
+  radius | int | `1` | Sets the pixel radius of each particle.
+  magnetism | float | `10.0` | Defines the starting strength of the the particles attraction towards the mouse.
+  deceleration | float | `0.95` | Defines how much the particle deceleration each frame based on distance. Lower values mean greater deceleration, a value of one means no deceleration. *Recommended Range: 0.90-1*
+  oscillatemax | int | 1 | Defines the pixel variation of each particle while oscillating.
+  oscilationspeed | float | 0 | Defines the speed at which the particles oscillate in size, a value of 0 means no oscillation. *Recommended Range: 0.0 - 1.0*

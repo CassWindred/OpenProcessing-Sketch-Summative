@@ -37,6 +37,7 @@ const trailSlider = document.getElementById('trailSlider'),
 opacView.innerHTML = opacSlider.value/10;
 
 let att;
+let ren;
 
 
 function setup () {
@@ -45,6 +46,7 @@ function setup () {
     pCountVal = parseInt(pCountSlider.value, 10);
 
     createCanvas(1000, 500);
+    ren=createGraphics(1000,500);
 
     att = new Attractor(pCountVal, undefined, true);
 
@@ -61,6 +63,7 @@ function setup () {
 function draw () {
 
     att.draw();
+    image(ren,0,0);
 
 }
 
