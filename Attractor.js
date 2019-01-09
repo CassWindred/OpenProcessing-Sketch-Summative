@@ -1,7 +1,39 @@
-// 引力・斥力モデル
-
-
 class Attractor {
+    get pcount() {
+        return this._pcount;
+    }
+
+    set pcount(newcount) {
+        while (this.x.length < newcount){ //Add points
+            this.x.push(random(width));
+            this.y.push(random(height));
+            this.vx.push(0);
+            this.vy.push(0);
+            this.ax.push(0);
+            this.ay.push(0);
+        }
+
+        while (this.x.length > newcount){ //Remove points starting with the most recently made
+            this.x.pop();
+            this.y.pop();
+            this.vx.pop();
+            this.vy.pop();
+            this.ax.pop();
+            this.ay.pop();
+
+
+        }
+
+        this._pcount=newcount; //Set _pcount to new value
+        if (this._pcount.toString() !== this.x.length.toString()){
+            console.log('Pcount and values in X not equal -ERROR CODE: 0001'); //Breaks if stuff is wrong
+            console.log('pcount: '+this._pcount.toString()+' | x length: '+this.x.length.toString());
+
+        }
+    }
+
+    //Todo: Maybe remove all this shit
+
     get outlinecolour() {
         return this._outlinecolour;
     }
@@ -31,7 +63,8 @@ class Attractor {
 
 
     constructor(pcount=1000, magnetism= 10.0, trail=true) {
-        this.pcount=parseInt(pcount, 10);
+
+        this._pcount=parseInt(pcount, 10); // Set values to their default values
         this.trail=trail;
         this._outline=false;
         this._outlinecolour='red';
@@ -39,18 +72,19 @@ class Attractor {
         this.opacity=32;
         this.blendmode=ADD;
         this.traillength=100.0;
-        this.vx = new Array(this.pcount);
-        this.vy = new Array(this.pcount);
-        this.x = new Array(this.pcount);
-        this.y = new Array(this.pcount);
-        this.ax = new Array(this.pcount);
-        this.ay = new Array(this.pcount);
-        //this.elipsevars=new Array(this.pcount); //Stores the most recent set of variables for the elipse to draw
-        this.his = new Array(this.pcount); //Stores a history of the point
+
+        //The following section creates 6 arrays, each of which stores information for each particle
+        // For example vx[0] stores the x-axis velocity of the 0th particle in the  and ay[0] stores the y-axis acceleration of the same particle.
+        this.vx = new Array(this._pcount); // Array of velocities in the x axis
+        this.vy = new Array(this._pcount); // Array of velocities in the y axis
+        this.x = new Array(this._pcount); // Array of positions in the x axis
+        this.y = new Array(this._pcount);// Array of positions in the y axis
+        this.ax = new Array(this._pcount);// Array of acceleration values in the x axis
+        this.ay = new Array(this._pcount);// Array of acceleration values in the y axis
 
         this.oscillatemax=1; //Defines the max number of pixels the size oscilates away from radius
-        this.oscilationspeed=0; //Defines the speed at which the particles oscilate
-        this.oscilationpoint=0; //Defines the point along the sine curve the oscilation is at
+        this.oscillationspeed=0; //Defines the speed at which the particles oscilate
+        this.oscillationpoint=0; //Defines the point along the sine curve the oscilation is at
 
         this._magnetism = magnetism; //Strength of attractive force If it is negative, it becomes repulsive force.。
         this.radius = 1 ; //Radius of drawing circle
@@ -59,80 +93,40 @@ class Attractor {
         this.backgroundcycle=true; //This allows the trail-removing rectangle draw to only happen every other cycle.
 
 
-
-
-        for (let i = 0; i < this.pcount; i++) {
+        for (let i = 0; i < this._pcount; i++) { //This generates starting values for every particle
             this.x[i] = random(width);
             this.y[i] = random(height);
             this.vx[i] = 0;
             this.vy[i] = 0;
             this.ax[i] = 0;
             this.ay[i] = 0;
-            this.his[i]=[];
-            //this.elipsevars[i]={};
 
         }
     }
 
 
 
-    addparticle(x=mouseX,y=mouseY) {
+    addparticle(x=mouseX,y=mouseY) { //This adds a new particle at the position given, defaulting to the mouse position
         this.x.push(x);
         this.y.push(y);
         this.vx.push(0);
         this.vy.push(0);
         this.ax.push(0);
         this.ay.push(0);
-        this.his.push([]);
-        //this.elipsevars.push({});
-        this.pcount=this.pcount+1;
-    }
-
-
-    updatepcount(newcount) {
-
-        while (this.x.length < newcount){ //Add points
-            this.x.push(random(width));
-            this.y.push(random(height));
-            this.vx.push(0);
-            this.vy.push(0);
-            this.ax.push(0);
-            this.ay.push(0);
-            this.his.push([]);
-            //this.elipsevars.push({});
-        }
-
-        while (this.x.length > newcount){ //Remove points starting with the most recently made
-            this.x.pop();
-            this.y.pop();
-            this.vx.pop();
-            this.vy.pop();
-            this.ax.pop();
-            this.ay.pop();
-            this.his.pop();
-            //this.elipsevars.pop();
-
-
-        }
-
-        this.pcount=newcount;
-        if (this.pcount.toString() !== this.x.length.toString()){
-            console.log('Pcount and values in X not equal -ERROR CODE: 0001'); //Breaks if stuff is wrong
-            console.log('pcount: '+this.pcount.toString()+' | x length: '+this.x.length.toString());
-
-        }
+        this._pcount=this._pcount+1;
     }
 
 
 
-    draw(ren) { //r is a renderer object that can be passed
+
+    draw(ren) { //This should be called every draw cycle. r is a renderer object that can be passed
 
         if (ren){
             ren.background(0);
             ren.blendMode(this.blendmode);
             ren.fill(0);
             ren.ellipseMode(RADIUS);
-            if (this._outline===false){
+            if (this._outline===false){ //This adjusts the outline according to parameters
                 noStroke();
             }
             else{
@@ -144,7 +138,7 @@ class Attractor {
             blendMode(this.blendmode);
             fill(0);
             ellipseMode(RADIUS);
-            if (this._outline===false){
+            if (this._outline===false){//This adjusts the outline according to parameters
                 noStroke();
             }
             else{
@@ -170,18 +164,20 @@ class Attractor {
                 ren.blendMode(this.blendmode);
             }
         }
+
         this.backgroundcycle=!this.backgroundcycle; //Swaps the value of the background cycle
 
+
         if (this.oscillatemax>0){ //Causes the point to oscilate between two sizes based on a sine curve
-            this.cradius=this.radius+(sin(this.oscilationpoint)*this.oscillatemax);
-            //console.log("OSCILATION AT "+this.cradius.toString()+ "| OSCILATION POINT: "+this.oscilationpoint.toString());
-            if (this.oscilationpoint>=360-this.oscilationspeed){ //Prevents oscilationpoint from going above 360
-                this.oscilationpoint=Math.abs(this.oscilationspeed); //TODO: Refine maths
+            this.cradius=this.radius+(sin(this.oscillationpoint)*this.oscillatemax);
+            //console.log("OSCILATION AT "+this.cradius.toString()+ "| OSCILATION POINT: "+this.oscillationpoint.toString());
+            if (this.oscillationpoint>=360-this.oscillationspeed){ //Prevents oscillationpoint from going above 360
+                this.oscillationpoint=Math.abs(this.oscillationspeed); //TODO: Refine maths
                 console.log('OSCILATION RESET');
             }
             else {
-                this.oscilationpoint += Math.abs(this.oscilationspeed);
-                //console.log("OSCILATION INCREMENTING BY "+Math.abs(this.oscilationspeed).toString())
+                this.oscillationpoint += Math.abs(this.oscillationspeed);
+                //console.log("OSCILATION INCREMENTING BY "+Math.abs(this.oscillationspeed).toString())
             }
             if (this.cradius<0){
                 this.cradius=0;
@@ -190,7 +186,7 @@ class Attractor {
         else{
             this.cradius=this.radius;
         }
-        if (!this.trail) {
+        if (!this.trail) { //This clears the entire canvas depending on trail parameter
             if (ren) {
                 ren.clear();
                 ren.background('black');
@@ -202,7 +198,7 @@ class Attractor {
         }
 
 
-        for (let i = 0; i < this.pcount; i++) {
+        for (let i = 0; i < this._pcount; i++) {
             this.distance = dist(mouseX, mouseY, this.x[i], this.y[i]); //dist(x1,y1,x2,y2) Function for finding the distance between two points
             //Acceleration is inversely proportional to the square of the distance from the center of gravity。
             if (this.distance > 3) { //If you are too close to the mouse, do not update the acceleration
@@ -242,5 +238,4 @@ class Attractor {
 
 }
 
-//Todo: Random variation per particle
-//Todo: Figure out why rect draws under the particles
+

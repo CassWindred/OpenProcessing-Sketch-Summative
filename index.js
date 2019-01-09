@@ -45,14 +45,14 @@ function setup () {
 
     pCountVal = parseInt(pCountSlider.value, 10);
 
-    createCanvas(1000, 500);
-    ren=createGraphics(1000,500);
+    createCanvas(1400, 550);
+    ren=createGraphics(1400,550);
 
     att = new Attractor(pCountVal, undefined, true);
 
     att.velocity = velocitySlider.value / 100;
     att.radius = sizeSlider.value / 100;
-    att.oscilationspeed = oscspeedSlider.value / 1000;
+    att.oscillationspeed = oscspeedSlider.value / 1000;
     att.oscillatemax = oscvalSlider.value / 100;
     att.opacity = parseInt(opacSlider.value);
     att.traillength=parseFloat(trailSlider.value/10);
@@ -75,7 +75,7 @@ function mousePressed () {
 
 pCountSlider.oninput = function oninput () {
 
-    att.updatepcount(parseInt(pCountSlider.value));
+    att.pcount = (parseInt(pCountSlider.value));
     pCountView.innerHTML = pCountSlider.value;
 
 };
