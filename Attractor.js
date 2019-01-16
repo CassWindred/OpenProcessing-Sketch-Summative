@@ -1,4 +1,74 @@
 class Attractor {
+    get basecolour() {
+        return this._basecolour;
+    }
+
+    set basecolour(value) {
+        this._basecolour = color(value);
+    }
+    get deceleration() {
+        return this._deceleration;
+    }
+
+    set deceleration(value) {
+        this._deceleration = value;
+    }
+    get radius() {
+        return this._radius;
+    }
+
+    set radius(value) {
+        this._radius = value;
+    }
+    get oscillationspeed() {
+        return this._oscillationspeed;
+    }
+
+    set oscillationspeed(value) {
+        this._oscillationspeed = value;
+    }
+    get oscillatemax() {
+        return this._oscillatemax;
+    }
+
+    set oscillatemax(value) {
+        this._oscillatemax = value;
+    }
+    get traillength() {
+        return this._traillength;
+    }
+
+    set traillength(value) {
+        this._traillength = value;
+    }
+    get blendmode() {
+        return this._blendmode;
+    }
+
+    set blendmode(value) {
+        this._blendmode = value;
+    }
+    get opacity() {
+        return this._opacity;
+    }
+
+    set opacity(value) {
+        this._opacity = value;
+    }
+    get velocity() {
+        return this._velocity;
+    }
+
+    set velocity(value) {
+        this._velocity = value;
+    }
+    get trail() {
+        return this._trail;
+    }
+
+    set trail(value) {
+        this._trail = value;
+    }
     get pcount() {
         return this._pcount;
     }
@@ -25,14 +95,8 @@ class Attractor {
         }
 
         this._pcount=newcount; //Set _pcount to new value
-        if (this._pcount.toString() !== this.x.length.toString()){
-            console.log('Pcount and values in X not equal -ERROR CODE: 0001'); //Breaks if stuff is wrong
-            console.log('pcount: '+this._pcount.toString()+' | x length: '+this.x.length.toString());
-
-        }
     }
 
-    //Todo: Maybe remove all this shit
 
     get outlinecolour() {
         return this._outlinecolour;
@@ -40,7 +104,7 @@ class Attractor {
 
     set outlinecolour(value) {
         this._outlinecolour = value;
-        if (this.outline=true){
+        if (this.outline===true){
             stroke(value);
         }
     }
@@ -65,13 +129,14 @@ class Attractor {
     constructor(pcount=1000, magnetism= 10.0, trail=true) {
 
         this._pcount=parseInt(pcount, 10); // Set values to their default values
-        this.trail=trail;
+        this._trail=trail;
         this._outline=false;
         this._outlinecolour='red';
-        this.velocity=1.0; //velocity modifier
-        this.opacity=32;
-        this.blendmode=ADD;
-        this.traillength=100.0;
+        this._velocity=1.0; //velocity modifier
+        this._opacity=32;
+        this._blendmode=ADD;
+        this._traillength=100.0;
+        this._basecolour=color('#004080');
 
         //The following section creates 6 arrays, each of which stores information for each particle
         // For example vx[0] stores the x-axis velocity of the 0th particle in the  and ay[0] stores the y-axis acceleration of the same particle.
@@ -82,13 +147,13 @@ class Attractor {
         this.ax = new Array(this._pcount);// Array of acceleration values in the x axis
         this.ay = new Array(this._pcount);// Array of acceleration values in the y axis
 
-        this.oscillatemax=1; //Defines the max number of pixels the size oscilates away from radius
-        this.oscillationspeed=0; //Defines the speed at which the particles oscilate
+        this._oscillatemax=1; //Defines the max number of pixels the size oscilates away from radius
+        this._oscillationspeed=0; //Defines the speed at which the particles oscilate
         this.oscillationpoint=0; //Defines the point along the sine curve the oscilation is at
 
         this._magnetism = magnetism; //Strength of attractive force If it is negative, it becomes repulsive force.。
-        this.radius = 1 ; //Radius of drawing circle
-        this.deceleration = 0.95; //Develerate particle movement
+        this._radius = 1 ; //Radius of drawing circle
+        this._deceleration = 0.95; //Develerate particle movement
 
         this.backgroundcycle=true; //This allows the trail-removing rectangle draw to only happen every other cycle.
 
@@ -123,7 +188,7 @@ class Attractor {
 
         if (ren){
             ren.background(0);
-            ren.blendMode(this.blendmode);
+            ren.blendMode(this._blendmode);
             ren.fill(0);
             ren.ellipseMode(RADIUS);
             if (this._outline===false){ //This adjusts the outline according to parameters
@@ -135,7 +200,7 @@ class Attractor {
         }
         else{
             background(0);
-            blendMode(this.blendmode);
+            blendMode(this._blendmode);
             fill(0);
             ellipseMode(RADIUS);
             if (this._outline===false){//This adjusts the outline according to parameters
@@ -147,46 +212,43 @@ class Attractor {
 
         }
 
-        if (this.traillength<100 && this.backgroundcycle) { //This should only occur every other draw cycle, thus allowing greater opacity without removing all trails
+        if (this._traillength<100 && this.backgroundcycle) { //This should only occur every other draw cycle, thus allowing greater opacity without removing all trails
             if (!ren) {
-                let fillopacity = 40 - (map(this.traillength, 0, 100, 0, 40));//This uses the trail length given to calculate an opacity in which to draw a rectangle and obscure the length
+                let fillopacity = 40 - (map(this._traillength, 0, 100, 0, 40));//This uses the trail length given to calculate an opacity in which to draw a rectangle and obscure the length
                 fill(0, fillopacity);
                 blendMode(BLEND);
                 rect(0, 0, width, height);
-                blendMode(this.blendmode);
+                blendMode(this._blendmode);
 
             }
             else{
-                let fillopacity = 40 - (map(this.traillength, 0, 100, 0, 40));//This uses the trail length given to calculate an opacity in which to draw a rectangle and obscure the length
+                let fillopacity = 40 - (map(this._traillength, 0, 100, 0, 40));//This uses the trail length given to calculate an opacity in which to draw a rectangle and obscure the length
                 ren.fill(0, fillopacity);
                 ren.blendMode(BLEND);
                 ren.rect(0, 0, width, height);
-                ren.blendMode(this.blendmode);
+                ren.blendMode(this._blendmode);
             }
         }
 
         this.backgroundcycle=!this.backgroundcycle; //Swaps the value of the background cycle
 
 
-        if (this.oscillatemax>0){ //Causes the point to oscilate between two sizes based on a sine curve
-            this.cradius=this.radius+(sin(this.oscillationpoint)*this.oscillatemax);
-            //console.log("OSCILATION AT "+this.cradius.toString()+ "| OSCILATION POINT: "+this.oscillationpoint.toString());
-            if (this.oscillationpoint>=360-this.oscillationspeed){ //Prevents oscillationpoint from going above 360
-                this.oscillationpoint=Math.abs(this.oscillationspeed); //TODO: Refine maths
-                console.log('OSCILATION RESET');
+        if (this._oscillatemax>0){ //Causes the point to oscilate between two sizes based on a sine curve
+            this.cradius=this._radius+(sin(this.oscillationpoint)*this._oscillatemax);
+            if (this.oscillationpoint>=360-this._oscillationspeed){ //Prevents oscillationpoint from going above 360
+                this.oscillationpoint=Math.abs(this._oscillationspeed);
             }
             else {
-                this.oscillationpoint += Math.abs(this.oscillationspeed);
-                //console.log("OSCILATION INCREMENTING BY "+Math.abs(this.oscillationspeed).toString())
+                this.oscillationpoint += Math.abs(this._oscillationspeed);
             }
             if (this.cradius<0){
                 this.cradius=0;
             }
         }
         else{
-            this.cradius=this.radius;
+            this.cradius=this._radius;
         }
-        if (!this.trail) { //This clears the entire canvas depending on trail parameter
+        if (!this._trail) { //This clears the entire canvas depending on trail parameter
             if (ren) {
                 ren.clear();
                 ren.background('black');
@@ -208,23 +270,23 @@ class Attractor {
             this.vx[i] += this.ax[i]; // Increase the speed this.vx by this.ax per frame。
             this.vy[i] += this.ay[i]; // Increase the speed this.vy by this.ay only per frame.
 
-            this.vx[i] = this.vx[i] * this.deceleration ;
-            this.vy[i] = this.vy[i] * this.deceleration ;
+            this.vx[i] = this.vx[i] * this._deceleration ;
+            this.vy[i] = this.vy[i] * this._deceleration ;
 
-            this.x[i] += this.vx[i]*this.velocity;  // Move forward this.vy pixels per frame.
-            this.y[i] += this.vy[i]*this.velocity;  // Move forward this.vy pixels per frame.
+            this.x[i] += this.vx[i]*this._velocity;  // Move forward this.vy pixels per frame.
+            this.y[i] += this.vy[i]*this._velocity;  // Move forward this.vy pixels per frame.
 
             const velocity = dist(0, 0, this.vx[i], this.vy[i]); // Find velocity from X and Y components of velocity
-            const r = map(velocity, 0, 5, 0, 255); //Calculate colors according to speed
-            const g = map(velocity, 0, 5, 64, 255);
-            const b = map(velocity, 0, 5, 128, 255);
+            const r = map(velocity, 0, 5, red(this.basecolour), 255); //Calculate colors according to speed
+            const g = map(velocity, 0, 5, green(this.basecolour), 255);
+            const b = map(velocity, 0, 5, blue(this.basecolour), 255);
 
             if (ren) {
-                ren.fill(r, g, b, this.opacity);
+                ren.fill(r, g, b, this._opacity);
                 ren.ellipse(this.x[i], this.y[i], this.cradius, this.cradius);
             }
             else{
-                fill(r, g, b, this.opacity);
+                fill(r, g, b, this._opacity);
                 ellipse(this.x[i], this.y[i], this.cradius, this.cradius);
             }
         }

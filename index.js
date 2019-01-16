@@ -36,6 +36,8 @@ const trailSlider = document.getElementById('trailSlider'),
 
 opacView.innerHTML = opacSlider.value/10;
 
+const colourPicker = document.getElementById('colourPicker');
+
 let att;
 let ren;
 
@@ -56,6 +58,7 @@ function setup () {
     att.oscillatemax = oscvalSlider.value / 100;
     att.opacity = parseInt(opacSlider.value);
     att.traillength=parseFloat(trailSlider.value/10);
+    att.basecolour = colourPicker.value.toString();
     // Att.outline = true;
 
 }
@@ -122,17 +125,22 @@ trailSlider.oninput = function oninput () {
 };
 
 
-function toggleTrails  () {
+function toggleTrails  () { //Called in HTML
 
     att.trail = !att.trail;
 
 }
 
-function resetValues () {
+function colourChange() { //Called in HTML
+    att.basecolour = colourPicker.value.toString();
+    //console.log(colourPicker.value.toString());
+}
+
+function resetValues () { //Called in HTML
 
     // Pcount
     pCountSlider.value = 1000;
-    att.updatepcount(parseInt(pCountSlider.value));
+    att.pcount = parseInt(pCountSlider.value);
     pCountView.innerHTML = pCountSlider.value;
 
     // Velocity
@@ -155,12 +163,24 @@ function resetValues () {
     att.oscillatemax = oscvalSlider.value / 100;
     oscvalView.innerHTML = oscvalSlider.value / 100;
 
+    //Opacity
     opacSlider.value = 32;
     att.opacity = parseInt(opacSlider.value, 10);
     opacView.innerHTML = opacSlider.value;
 
     // Trails
     att.trail = true;
+
+    // Trail Length
+    trailSlider.value = 1000;
+    att.traillength = parseFloat(trailSlider.value/10);
+    trailView.innerHTML = trailSlider.value/10;
+
+    // Base Colour
+    colourPicker.value = '#004080';
+    att.basecolour = colourPicker.value.toString();
+
+
 
 
 }
