@@ -25,6 +25,8 @@ class Attractor {
     }
 
     set oscillationspeed(value) {
+        console.log('SETTING OSCILATION TO ', value);
+
         this._oscillationspeed = value;
     }
     get oscillatemax() {
@@ -232,9 +234,11 @@ class Attractor {
 
         this.backgroundcycle=!this.backgroundcycle; //Swaps the value of the background cycle
 
-
-        if (this._oscillatemax>0){ //Causes the point to oscilate between two sizes based on a sine curve
+        console.log(this._oscillationspeed);
+        if (this._oscillatemax>0 && this._oscillationspeed>0){ //Causes the point to oscilate between two sizes based on a sine curve
+            console.log('OSCILLATING');
             this.cradius=this._radius+(sin(this.oscillationpoint)*this._oscillatemax);
+            console.log(this.cradius);
             if (this.oscillationpoint>=360-this._oscillationspeed){ //Prevents oscillationpoint from going above 360
                 this.oscillationpoint=Math.abs(this._oscillationspeed);
             }

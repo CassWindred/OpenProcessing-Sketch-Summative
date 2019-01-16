@@ -5,13 +5,14 @@ by default displays a set of particles with trail that are attracted to the mous
 This is based on an openprocessing.org sketch by Masaki Yamabe called Attractor 0 which can be found [here](https://www.openprocessing.org/sketch/394718).
 It is under the Attribution-ShareAlike 3.0 Unported license which is detailed [here](https://creativecommons.org/licenses/by-sa/3.0/).
 
-This adaptation is also released under the Attribution-ShareAlike 3.0 Unported license.
+
 
 ### Functions
 
 ---
 
 #### constructor(pcount=1000, magnetism= 10.0, trail=true):
+*Example: *  `attobj = new Attractor(500, 9.95, false)`  
 This is automatically called when a new Attractor object is created.
 
 **Required Parameters:** None
@@ -33,6 +34,7 @@ This is automatically called when a new Attractor object is created.
 
 ---
 #### draw(ren)
+*Example: * `attobj.draw()`  
 This function draws the next frame onto either the default canvas or onto a
 `p5.renderer` object passed in as `ren`. It is recommended to call this in the
 `draw()` function of your main code.
@@ -48,6 +50,7 @@ This function draws the next frame onto either the default canvas or onto a
 ---
 
 #### addparticle(x=mouseX, y=mouseY)
+*Example: *`attobj.addparticle(100,0)`  
 This function adds a new particle to the list, by default it will be placed
 at the location of the mouse, but specific coordinates can be provided
 
@@ -65,6 +68,7 @@ at the location of the mouse, but specific coordinates can be provided
 ---
 
 #### set pcount(newcount)
+*Example: *`attobj.pcount = 1500`  
   This function updates the total number of particles to a new value.
   If the new value is lower than the old value, particles will be deleted,
   starting with those most recently created, if any.

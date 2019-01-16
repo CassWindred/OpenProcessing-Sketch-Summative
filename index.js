@@ -98,7 +98,7 @@ sizeSlider.oninput = function oninput () {
 
 oscspeedSlider.oninput = function oninput () {
 
-    att.oscilationspeed = oscspeedSlider.value / 1000;
+    att.oscillationspeed = oscspeedSlider.value / 1000;
     oscspeedView.innerHTML = oscspeedSlider.value / 1000;
 
 };
