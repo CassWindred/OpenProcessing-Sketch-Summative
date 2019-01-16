@@ -233,10 +233,8 @@ class Attractor {
         this.backgroundcycle=!this.backgroundcycle; //Swaps the value of the background cycle
 
 
-        if (this._oscillatemax>0 && this._oscillationspeed>0){ //Causes the point to oscilate between two sizes based on a sine curve
-
+        if (this._oscillatemax>0){ //Causes the point to oscilate between two sizes based on a sine curve
             this.cradius=this._radius+(sin(this.oscillationpoint)*this._oscillatemax);
-
             if (this.oscillationpoint>=360-this._oscillationspeed){ //Prevents oscillationpoint from going above 360
                 this.oscillationpoint=Math.abs(this._oscillationspeed);
             }
